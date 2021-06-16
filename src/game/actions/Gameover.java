@@ -16,17 +16,29 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import game.actions.model.Score;
+
 public class Gameover 
 {
-	Gameover(int score)
+	private Gameover(Score score)
 	{
 		init(score);
 		gameOver();
 		
 	}
+	
+	private static Gameover instance;
+	
+	public static synchronized Gameover getInstance(Score score ) {
+		if(Gameover.instance == null) {
+			Gameover.instance= new Gameover(score );
+		}
+		return Gameover.instance;
+	}
+	
 	public static BufferStrategy bs;
 	public static Graphics g;
-	public static BufferedImage img2=imageLoader.loadImage("res/GAMEOVER.png");
+	public static BufferedImage img2=imageLoader.getInstance().loadImage("res/GAMEOVER.png");
 	public  void gameOver()
 	{
 		int pps=4;
@@ -60,7 +72,7 @@ public class Gameover
 	}
 	Disply desp;
 	BufferedImage[] bim;
-	private void init(int score ) 
+	private void init(Score score ) 
 	{
 		desp = new Disply(0);
 		bim= new BufferedImage[8];

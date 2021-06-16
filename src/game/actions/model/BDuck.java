@@ -18,9 +18,9 @@ public class BDuck extends Entities
 	BufferedImage[] bducks ;
 	private  void init() 
 	{
-		bducks[0]=imageLoader.loadImage("res/BDuck1.png");
-		bducks[1]=imageLoader.loadImage("res/bduck2.png");
-		bducks[2]=imageLoader.loadImage("res/bduck3.png");
+		bducks[0]=imageLoader.getInstance().loadImage("res/BDuck1.png");
+		bducks[1]=imageLoader.getInstance().loadImage("res/bduck2.png");
+		bducks[2]=imageLoader.getInstance().loadImage("res/bduck3.png");
 	}
 
 	@Override

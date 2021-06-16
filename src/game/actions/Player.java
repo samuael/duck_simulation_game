@@ -4,18 +4,21 @@ import java.awt.image.BufferedImage;
 
 import game.actions.model.Entities;
 import game.actions.model.Gun;
+import game.actions.model.Score;
 
 public class Player extends Entities
 {
 	double slope;
-	public Gun gun ;
-//	public Score score ;
+	public Gun gun;
+	public Score score;
+	
 	Player()
 	{
 		super(10, 0,500 , 200);
 		this.slope=0.1;
 		this.gun = new Gun();
 		this.gun.setSlope(this.slope);
+		this.score= new Score();
 	}
 
 	

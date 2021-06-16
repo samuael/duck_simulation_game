@@ -5,10 +5,19 @@ import java.awt.event.KeyListener;
 
 public class KeyListening implements KeyListener {
 	
-	
-	
-	public boolean[] keys= new boolean[256];
+	public boolean[] keys;
 	public boolean up,down,left,right,shoot;
+	private KeyListening() {
+		keys= new boolean[256];
+	}
+	
+	private static  KeyListening instance;
+	public static synchronized KeyListening getInstance() {
+		if( KeyListening.instance==null ) {
+			KeyListening.instance= new KeyListening();
+		}
+		return KeyListening.instance;
+	}
 	
 
 	public void update() 
@@ -17,17 +26,12 @@ public class KeyListening implements KeyListener {
 		up=keys[KeyEvent.VK_UP];
 		down=keys[KeyEvent.VK_DOWN];
 		left=keys[KeyEvent.VK_LEFT];
-		right=keys[KeyEvent.VK_RIGHT];
-		
-		
+		right=keys[KeyEvent.VK_RIGHT];	
 	}
+	
 	@Override
 	public void keyPressed(KeyEvent k) {
-		
-		keys[k.getKeyCode()]=true;
-		
-		
-		
+		keys[k.getKeyCode()]=true;	
 	}
 
 	

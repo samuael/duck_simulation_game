@@ -11,7 +11,7 @@ public class UDuck extends Entities
 	private int xw;
 	public static final String DIR="UP";
 	BufferedImage im1;
-	static BufferedImage woodduck = imageLoader.loadImage("res/up12.png");
+	static BufferedImage woodduck = imageLoader.getInstance().loadImage("res/up12.png");
 	BufferedImage[] imgs = new BufferedImage[2];
 	public UDuck()
 	{

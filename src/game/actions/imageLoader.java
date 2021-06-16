@@ -2,20 +2,19 @@ package game.actions;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 //This has to be changed to a singleton object so that we can use the object any where 
 //to load Image 
 public class imageLoader {
-	
+	private imageLoader() {
+	}
 	private static imageLoader instance ; 
 	
-	public static BufferedImage loadImage(String path) 
+	public synchronized BufferedImage loadImage(String path) 
 	{
 	// this class is made to create and to input the image from the class resourse texture class
 		try {
-			System.out.println(path);
 			return ImageIO.read(imageLoader.class.getResource(path));
 		} catch (IOException e) {
 			

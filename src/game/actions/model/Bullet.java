@@ -12,14 +12,13 @@ public class Bullet extends Entities
 	public double slope=0;
 	public boolean shooted=false;
 	public static int counter=0;
-	
 	Bullet()
 	{
 		super(1,0,600,6);
 		this.id = ++counter;
-		fireimage =imageLoader.loadImage("res/bullet.png");	
+		fireimage =imageLoader.getInstance().loadImage("res/bullet.png");	
 	}
-	public BufferedImage getImage() 
+	public BufferedImage getImage()
 	{	
 		return fireimage;
 	}

@@ -19,6 +19,8 @@ import javax.swing.RootPaneContainer;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import game.actions.model.Score;
+
 import java.awt.font.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -35,8 +37,6 @@ public class Disply {
 	public JPanel panel;
 	Disply()
 	{
-		
-		
 		desplay(1);
 		
 	}
@@ -55,6 +55,9 @@ public class Disply {
 	BufferedImage ima ;
 	BufferStrategy stra;
 	Graphics graph;
+	JLabel labe;
+	private int minute;
+	private int second;
 	
 	private void desplay(int bam) 
 	{
@@ -105,14 +108,14 @@ public class Disply {
 		
 		
 		
-	}JLabel labe;
+	}
+	
 	
 	public Canvas getCanvas() 
 	{
 		return canvas;
 	}
-	private int minute;
-	private int second;
+	
 	public void setTime(int minute , int second) 
 	{
 		this.minute=minute;
@@ -155,10 +158,10 @@ public class Disply {
 		this.getFrame().setVisible(false);
 	}
 	public boolean started=false;
-	public void  setScore(int score) 
+	public void  setScore(Score score) 
 	{
 		
-		this.score.setText(String.format("SCORE : %d                     ", score));
+		this.score.setText(String.format("SCORE : %d                     ", score.score));
 	}
 
 	

@@ -44,10 +44,17 @@ public class FDuck extends Entities
 		
 		
 	}
+	
+//	Flys fly = new SideFlys();
+//	
+//	public void update() {
+//		fly.update();
+//	}
+	
 	BufferedImage[] buffers;
 	
-	static BufferedImage sprite=imageLoader.loadImage("res/theSprite.png");
-	static BufferedImage sprite1=imageLoader.loadImage("res/theTWo.png");
+	static BufferedImage sprite=imageLoader.getInstance().loadImage("res/theSprite.png");
+	static BufferedImage sprite1=imageLoader.getInstance().loadImage("res/theTWo.png");
 	int ctr=0;
 	public BufferedImage getImage() 
 	{

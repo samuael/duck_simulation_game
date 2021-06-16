@@ -21,15 +21,15 @@ public class Game implements Runnable{
 	BufferedImage image ,sprite,sprite1 ,sprite2;
 	Disply display;
 	private  KeyListening listenkey;
-	private Player players;
+	public Player players;
 	private BufferStrategy bs;
 	
-	private BufferedImage boom = imageLoader.loadImage("res/boom.png");
+	private BufferedImage boom = imageLoader.getInstance().loadImage("res/boom.png");
 	private int x=0;
 	Game()
 	{
 		 
-		listenkey=new KeyListening();
+		listenkey=KeyListening.getInstance();
 //		bullets= new Bullet[20];
 		entit = new Entities[4];
 	}
@@ -37,7 +37,7 @@ public class Game implements Runnable{
 	{
 		display=new Disply(); 
 		players=new Player();	
-		image = imageLoader.loadImage("res/thescay.png");
+		image = imageLoader.getInstance().loadImage("res/thescay.png");
 		initDuckAndBullets();
 		display.getFrame().addKeyListener(listenkey);	
 	}
@@ -58,14 +58,7 @@ public class Game implements Runnable{
 		index=random();
 		
 		
-		duck=entit[index];// (Entities) entit.get(index);
-//		// in have initialized 10 bullets that can be run exclusively
-//		for(int i =0; i <20; i++) 
-//		{
-//			bullet =new Bullet();
-//			bullets[i]=bullet;
-//		}
-		
+		duck=entit[index];
 	}
 	// this picks a number randomly  0 to 3
 	public int random() 
@@ -200,7 +193,7 @@ public class Game implements Runnable{
 	Graphics g ;
 	
 	
-	private int score; 
+//	private int score; 
 	int ctr=0;
 	private void show() 
 	{
@@ -239,13 +232,13 @@ public class Game implements Runnable{
 				
 				if(duck.life<=0 ) 
 				{
-					score++;
+					this.players.score.score++;
 					if( duck.getDir()=="LEFT") 
 					{
 						
 						this.players.life+=2;
 					}
-					display.setScore(score);
+					display.setScore(this.players.score);
 				}
 			
 			}
@@ -254,7 +247,7 @@ public class Game implements Runnable{
 			{
 				
 				display.exit();
-				new Gameover(this.score);
+				Gameover.getInstance(this.players.score);
 				stop();
 				
 			}
@@ -283,6 +276,7 @@ public class Game implements Runnable{
 		bs.show();
 	
 	}
+	
 	int time;
 	public void run() 
 	{
@@ -331,13 +325,8 @@ public class Game implements Runnable{
 				
 				timer1=timer2;
 			ticks=0;
-			
-			//timer=0;
 			}
-			
-		}stop();
-		
-		
+		}stop();	
 	}
 	
 	

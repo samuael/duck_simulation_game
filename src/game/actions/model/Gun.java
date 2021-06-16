@@ -14,7 +14,7 @@ public class Gun {
 	public Gun() {
 //		player = imageLoader.loadImage("res/gunsprite.png");
 		
-		player = imageLoader.loadImage("res/PicsArt_06-15-08.21.32.png");
+		player = imageLoader.getInstance().loadImage("res/PicsArt_06-15-08.21.32.png");
 		this.myBullets= new BulletFactory(12);
 		this.guns= new BufferedImage[10];
 		guns[0]=player.getSubimage(0, 0, 100, 99);

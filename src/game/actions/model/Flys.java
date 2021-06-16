@@ -66,7 +66,7 @@ class SideFlys implements Flys {
 	public BufferedImage[] images ;
 	public BufferedImage[] getImages() {
 		try {
-			BufferedImage sprite = imageLoader.loadImage("res/theSprite.png");
+			BufferedImage sprite = imageLoader.getInstance().loadImage("res/theSprite.png");
 			images[0]=sprite.getSubimage(2, 0, 62, 62);
 			images[1]=sprite.getSubimage(66, 0, 62, 62);
 			images[2]=sprite.getSubimage(129, 0, 62, 62);
