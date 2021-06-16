@@ -26,7 +26,7 @@ public class Gameover
 	}
 	public static BufferStrategy bs;
 	public static Graphics g;
-	public static BufferedImage img2=imageLoader.loadImage("/resourcepic/GAMEOVER.png");
+	public static BufferedImage img2=imageLoader.loadImage("res/GAMEOVER.png");
 	public  void gameOver()
 	{
 		int pps=4;
@@ -87,53 +87,6 @@ public class Gameover
 	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

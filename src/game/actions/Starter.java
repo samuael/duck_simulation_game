@@ -32,12 +32,12 @@ public class Starter extends JFrame
 	
 	Starter ()
 	{	 
-		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("gh.jpg")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/gh.jpg")));
 		setLayout(new FlowLayout());
-		ImageIcon imc= new ImageIcon(getClass().getResource("backupps.png"));
-		Help= new ImageIcon(getClass().getResource("help.png"));
-		play= new ImageIcon(getClass().getResource("play.png"));
-		Exit= new ImageIcon(getClass().getResource("exit.png"));
+		ImageIcon imc= new ImageIcon(getClass().getResource("res/backupps.png"));
+		Help= new ImageIcon(getClass().getResource("res/help.png"));
+		play= new ImageIcon(getClass().getResource("res/play.png"));
+		Exit= new ImageIcon(getClass().getResource("res/exit.png"));
 		this.getContentPane().setBackground(Color.black);
 		
 		setSize(800,700);

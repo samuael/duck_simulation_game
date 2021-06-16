@@ -59,7 +59,7 @@ public class Disply {
 	private void desplay(int bam) 
 	{
 		frame = new JFrame(name);
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("gh.jpg")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("res/gh.jpg")));
 		frame.setSize(800,700);
 		frame.setLayout(new FlowLayout());
 		newgame= new JButton("NEW GAME ");

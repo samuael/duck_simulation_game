@@ -1,6 +1,12 @@
 package game.actions;
 import java.util.Random;
 
+import game.actions.model.BDuck;
+import game.actions.model.Bullet;
+import game.actions.model.Entities;
+import game.actions.model.FDuck;
+import game.actions.model.UDuck;
+
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -18,27 +24,22 @@ public class Game implements Runnable{
 	private Player players;
 	private BufferStrategy bs;
 	
-	private BufferedImage boom = imageLoader.loadImage("/resourcepic/boom.png");
+	private BufferedImage boom = imageLoader.loadImage("res/boom.png");
 	private int x=0;
 	Game()
 	{
 		 
 		listenkey=new KeyListening();
-		bullets= new bulletPlayer[20];
+//		bullets= new Bullet[20];
 		entit = new Entities[4];
 	}
 	private  void init() 
 	{
-		
 		display=new Disply(); 
-		players=new Player();
-		
-		image = imageLoader.loadImage("/resourcepic/thescay.png");
-		
+		players=new Player();	
+		image = imageLoader.loadImage("res/thescay.png");
 		initDuckAndBullets();
-		display.getFrame().addKeyListener(listenkey);
-		
-		
+		display.getFrame().addKeyListener(listenkey);	
 	}
 	
 	private Entities duck;
@@ -46,7 +47,7 @@ public class Game implements Runnable{
 	
 	
 	Entities[] entit; 
-	bulletPlayer bullet;
+	Bullet bullet;
 	int index =0;
 	private  void initDuckAndBullets() // this will be called in the init() method;
 	{
@@ -58,12 +59,12 @@ public class Game implements Runnable{
 		
 		
 		duck=entit[index];// (Entities) entit.get(index);
-		// in have initialized 10 bullets that can be run exclusively
-		for(int i =0; i <20; i++) 
-		{
-			bullet =new bulletPlayer();
-			bullets[i]=bullet;
-		}
+//		// in have initialized 10 bullets that can be run exclusively
+//		for(int i =0; i <20; i++) 
+//		{
+//			bullet =new Bullet();
+//			bullets[i]=bullet;
+//		}
 		
 	}
 	// this picks a number randomly  0 to 3
@@ -76,20 +77,23 @@ public class Game implements Runnable{
 	public int last_y=80;
 	public  double slope=0.1;
 	
-	private bulletPlayer bullets[] ;
+//	private Bullet bullets[] ;
 	
 	
-	private void bulletUpdate() 
-	{
-		for (int j =0; j < bullets.length;j++) {
-			if(bullets[j].outOfBound()) {
-				bullets[j]=new bulletPlayer();
-			}
-		}
-	}
+//	private void bulletUpdate() 
+//	{
+////		for (int j =0; j < bullets.length;j++) {
+////			if(bullets[j].outOfBound()) {
+////				bullets[j]=new Bullet();
+////			}
+////		}
+////		this.players.gun.myBullets.getBullet(this.slope, 0, 0 );
+////		System.out.println(this.players.gun.myBullets.remainingBullets);
+//		// here i will set the count each time to the bottom bar .
+//	}
 	
 	
-	private void bulletMovement() 
+	private void bulletMovement()
 	{
 		listenkey.update();
 		if(listenkey.up) {
@@ -98,12 +102,15 @@ public class Game implements Runnable{
 				
 			}else {
 			slope+=0.2;
+			this.players.setSlope(slope);
 			}
 		}
 		if(listenkey.down)
 			if((slope-0.2)<=0.2) {}else {
 			slope-=0.2;
+			this.players.setSlope(slope);
 			}
+		
 		
 		if(listenkey.right) 
 		{
@@ -126,25 +133,35 @@ public class Game implements Runnable{
 				
 			}
 		}
+		
+		
+		
+		/// here the gun is shooting the bullet setting the slope and the shooted variabe.
+		// there for in the new implementation  i am gonna use this implementation to set the slope to the newly created bullet and 
+		// returning a sound of empty gun to show that the gun is empty if all the bullets are shooted .
 		if(listenkey.shoot) 
 		{
-			for(bulletPlayer shut : bullets) {
-				if(!(shut.shooted)) 
-				{
-					
-					shut.slope=slope;
-					shut.shooted=true;
-					return;
-				}
-			}
-			
+//			for(Bullet shut : bullets) {
+//				if(!(shut.shooted)) 
+//				{
+//					
+//					shut.slope=slope;
+//					shut.shooted=true;
+//					return;
+//				}
+//			}
+			this.players.gun.myBullets.getBullet(this.slope, 0 , 0 );
+			System.out.println(this.players.gun.myBullets.remainingBullets);
+			listenkey.shoot=false;
 		}
+		
+		// this player is the gun as a player entity.
 		players.setSlope(this.slope);
 		players.update();
 	}
 	private void updateDuck() 
 	{
-		if(duck.outOfBound()&& (duck.life>=1)) 
+		if(duck.outOfBound()  && (duck.life>=1)) 
 		{
 			players.life--;
 			
@@ -166,12 +183,7 @@ public class Game implements Runnable{
 			duck=entit[index];
 			
 			}
-		
-		
 		duck.update();
-		
-		
-			
 	}
 	
 	
@@ -179,24 +191,12 @@ public class Game implements Runnable{
 	{
 		//update key board
 		listenkey.update();
-		
-	
-		//Duck update 
+		// Duck update 
 		updateDuck(); // update duck
-		
-		
 		//.................
 		// update for the bullets 
-		
-		bulletUpdate();
-		
-		
+//		bulletUpdate();	
 	}
-		
-		
-		
-		
-		
 	Graphics g ;
 	
 	
@@ -221,12 +221,18 @@ public class Game implements Runnable{
 		//end draw
 		
 		
-		for(int i =0;i<bullets.length;i++) {
-			if(bullets[i].shooted==true && bullets[i].overlaps(duck,last_x)) 
+		for(int i =0;i<this.players.gun.myBullets.bullets.length;i++) {
+			if(this.players.gun.myBullets.bullets[i].shooted==true && this.players.gun.myBullets.bullets[i].overlaps(duck,last_x)    )// && 	if(this.x > 800 || this.x<0 || this.y> 600 || this.y < 0) this.players.gun.myBullets.bullets[i].x >0  ) 
 			{
 				duck.life--;
-				bullet = new bulletPlayer();
-				bullets[i]=bullet;
+				
+				
+				// TODO:  i have to change this to reset the bullet using the bullet ID .
+//				bullet = new Bullet();
+//				bullets[i]=bullet;
+				this.players.gun.myBullets.bullets[i].resetBullet();
+				
+				// TODO: ----
 				for(int k=0;k<=100;k++) {
 					g.drawImage(boom,duck.x,duck.y,null);
 				}
@@ -255,13 +261,19 @@ public class Game implements Runnable{
 			
 			display.changeLife(String.format("               LIFE : %s", players.life));
 			
-			if(bullets[i].shooted) 
-			{
-				
-				g.drawImage(bullets[i].getImage(),( bullets[i].x+ last_x), (bullets[i].y-last_y), null);
-				bullets[i].update();
-			}
 			
+			// here the bullet is shooted and the game logic is drawing the bullets 
+			if(this.players.gun.myBullets.bullets[i].shooted) 
+			{
+				if(this.players.gun.myBullets.bullets[i].outOfBound()) {
+					this.players.gun.myBullets.storeBullet( this.players.gun.myBullets.bullets[i] );
+					this.players.gun.myBullets.bullets[i].resetBullet();
+					continue;
+				}
+//				g.drawImage(this.players.gun.myBullets.bullets[i].getImage(),( this.players.gun.myBullets.bullets[i].x), (this.players.gun.myBullets.bullets[i].y), null);
+				g.drawImage(this.players.gun.myBullets.bullets[i].getImage(),( this.players.gun.myBullets.bullets[i].x+ last_x), (this.players.gun.myBullets.bullets[i].y-last_y), null);
+				this.players.gun.myBullets.bullets[i].update();
+			}
 		}
 		g.drawImage(players.getImage(), players.x, 520, null);
 		
@@ -288,10 +300,8 @@ public class Game implements Runnable{
 		int ticks=0;
 	
 		
-		
 		while(running ) 
 		{
-			
 			now=System.nanoTime();
 			delta+=(now-lastTime)/timepertick;
 			beta+=(now-lastTime)/shootpertick;
@@ -346,6 +356,7 @@ public class Game implements Runnable{
 		thread.start();
 		
 	}
+	
 	public synchronized void stop() 
 	{
 		if (!running )

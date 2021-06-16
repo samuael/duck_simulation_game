@@ -13,8 +13,9 @@ public class imageLoader {
 	
 	public static BufferedImage loadImage(String path) 
 	{
-	// this class is made to creat and to input the image from the class resourse texture class
+	// this class is made to create and to input the image from the class resourse texture class
 		try {
+			System.out.println(path);
 			return ImageIO.read(imageLoader.class.getResource(path));
 		} catch (IOException e) {
 			
