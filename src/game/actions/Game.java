@@ -1,14 +1,14 @@
 package game.actions;
 import java.util.Random;
 
-import game.actions.model.BDuck;
 import game.actions.model.Bullet;
+import game.actions.model.Duck;
 import game.actions.model.Entities;
-import game.actions.model.FDuck;
-import game.actions.model.UDuck;
+import game.actions.model.LeftGrey;
+import game.actions.model.RightWhite;
+import game.actions.model.UpNormal;
+import game.actions.model.UpRightRed;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 
@@ -51,10 +51,22 @@ public class Game implements Runnable{
 	int index =0;
 	private  void initDuckAndBullets() // this will be called in the init() method;
 	{
-		entit[0]=new FDuck(0);
-		entit[1]=new UDuck();
-		entit[2]=new BDuck();
-		entit[3]=new FDuck(1);
+		entit[0]=new Duck(3);
+		LeftGrey leftGrey = new LeftGrey((Duck)entit[0]);
+		((Duck)entit[0]).setFlys(leftGrey);
+		
+		
+		entit[1]=new Duck(1);
+		RightWhite rightWhite = new RightWhite((Duck)entit[1]);
+		((Duck)entit[1]).setFlys(rightWhite);
+		
+		entit[2]=new Duck(1);
+		UpNormal upNormal = new UpNormal((Duck)entit[2]);
+		((Duck)entit[2]).setFlys(upNormal);
+		
+		entit[3]=new Duck(1);
+		UpRightRed upRightRed = new UpRightRed((Duck)entit[3]);
+		((Duck)entit[3]).setFlys(upRightRed);
 		index=random();
 		
 		
@@ -68,23 +80,7 @@ public class Game implements Runnable{
 	}
 	public int last_x=80;// this two 80 numbers are the height and the width of the player
 	public int last_y=80;
-	public  double slope=0.1;
-	
-//	private Bullet bullets[] ;
-	
-	
-//	private void bulletUpdate() 
-//	{
-////		for (int j =0; j < bullets.length;j++) {
-////			if(bullets[j].outOfBound()) {
-////				bullets[j]=new Bullet();
-////			}
-////		}
-////		this.players.gun.myBullets.getBullet(this.slope, 0, 0 );
-////		System.out.println(this.players.gun.myBullets.remainingBullets);
-//		// here i will set the count each time to the bottom bar .
-//	}
-	
+	public  double slope=0.1;	
 	
 	private void bulletMovement()
 	{
@@ -97,12 +93,18 @@ public class Game implements Runnable{
 			slope+=0.2;
 			this.players.setSlope(slope);
 			}
+//			listenkey.up= false;
+//			
+//			listenkey.keys[KeyEvent.VK_UP]= false;
 		}
-		if(listenkey.down)
+		if(listenkey.down) {
 			if((slope-0.2)<=0.2) {}else {
 			slope-=0.2;
 			this.players.setSlope(slope);
 			}
+//			listenkey.down= false;
+//			listenkey.keys[KeyEvent.VK_DOWN]=false;
+		}
 		
 		
 		if(listenkey.right) 
@@ -114,6 +116,8 @@ public class Game implements Runnable{
 				players.x+=25;
 				last_x=players.x+80;
 			}
+//			listenkey.right= false ;
+//			listenkey.keys[KeyEvent.VK_RIGHT]=false;
 		}
 		if(listenkey.left) 
 		{
@@ -121,14 +125,10 @@ public class Game implements Runnable{
 			{
 				players.x-=25;
 				last_x=players.x+80;
-			}else 
-			{
-				
 			}
+//			listenkey.left=false;
+//			listenkey.keys[KeyEvent.VK_LEFT]=false;
 		}
-		
-		
-		
 		/// here the gun is shooting the bullet setting the slope and the shooted variabe.
 		// there for in the new implementation  i am gonna use this implementation to set the slope to the newly created bullet and 
 		// returning a sound of empty gun to show that the gun is empty if all the bullets are shooted .
@@ -145,7 +145,8 @@ public class Game implements Runnable{
 //			}
 			this.players.gun.myBullets.getBullet(this.slope, 0 , 0 );
 			System.out.println(this.players.gun.myBullets.remainingBullets);
-			listenkey.shoot=false;
+//			listenkey.shoot=false;
+//			listenkey.keys[KeyEvent.VK_Z]= false;
 		}
 		
 		// this player is the gun as a player entity.
@@ -161,20 +162,10 @@ public class Game implements Runnable{
 		}
 		if (duck.outOfBound() || duck.life==0) 
 			{
-			if(duck.getDir()=="HORIZONTAL") 
-			{
-				entit[index]=new FDuck(((FDuck)(duck)).choice);
-				
-			}else if (duck.getDir()=="UP") 
-			{
-				entit[index]=new UDuck();
-			}else if (duck.getDir()=="LEFT") 
-			{
-				entit[index]=new BDuck();
-			}
+			((Duck)duck).initializeCoordinate();
+			((Duck)duck).resetLife();
 			index=random();
 			duck=entit[index];
-			
 			}
 		duck.update();
 	}
@@ -184,7 +175,6 @@ public class Game implements Runnable{
 	{
 		//update key board
 		listenkey.update();
-		// Duck update 
 		updateDuck(); // update duck
 		//.................
 		// update for the bullets 
@@ -232,6 +222,7 @@ public class Game implements Runnable{
 				
 				if(duck.life<=0 ) 
 				{
+					((Duck)duck).initializeCoordinate();
 					this.players.score.score++;
 					if( duck.getDir()=="LEFT") 
 					{
@@ -328,22 +319,18 @@ public class Game implements Runnable{
 			}
 		}stop();	
 	}
-	
+
 	
 	
 	private boolean running=false;
 	Thread thread ;
-	
-	
 	public synchronized void start() 
 	{
 		if(running )
 			return;
-		
 		running=true;
 		thread = new Thread(this);
-		thread.start();
-		
+		thread.start();	
 	}
 	
 	public synchronized void stop() 
@@ -358,8 +345,4 @@ public class Game implements Runnable{
 		}
 		System.exit(1);
 	}
-	
-	
-	
-
 }
